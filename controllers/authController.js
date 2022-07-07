@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 exports.createUser = async (req, res) => {
   try {
@@ -24,7 +25,8 @@ exports.loginUser = async (req, res) => {
     if (user) {
       bcrypt.compare(password, user.password, (err, same) => {
         if (same) {
-          res.status(200).send('You are succesfully logged in!');
+          req.session.userID = user._id;
+          res.status(200).redirect('/');
         }
         if (err) {
           res.status(400).send('Wrong Password');
@@ -37,4 +39,10 @@ exports.loginUser = async (req, res) => {
       //error,
     });
   }
+};
+
+exports.logoutUser = async (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
 };
