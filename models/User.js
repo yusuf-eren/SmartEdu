@@ -18,6 +18,11 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ['student', 'teacher', 'admin'],
+    default: 'student',
+  },
 });
 
 UserSchema.pre('save', function (next) {
@@ -28,6 +33,9 @@ UserSchema.pre('save', function (next) {
     console.log(hash);
     next();
   });
+  if (user.role === 'admin') {
+    user.role = 'student';
+  }
 });
 
 const User = mongoose.model('User', UserSchema);
