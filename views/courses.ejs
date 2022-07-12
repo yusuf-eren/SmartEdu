@@ -12,6 +12,11 @@
 <div id="overviews" class="section wb">
   <div class="container">
     <div class="row">
+      <% if(flashMessages) { %> <% if(flashMessages.success) { %>
+      <div class="alert alert-success"><%=flashMessages.success%></div>
+      <% } %> <% if(flashMessages.error) { %>
+      <div class="alert alert-warning"><%=flashMessages.error%></div>
+      <% } %> <% } %>
       <div class="col-lg-9 blog-post-single">
         <div class="row">
           <% for(let i = 0; i < courses.length; i++) { %>
